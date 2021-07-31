@@ -5,6 +5,9 @@
  */
 package GiaoDien;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -37,9 +40,14 @@ public class frmMenu extends javax.swing.JFrame {
         ChuyenMuc = new javax.swing.JMenuItem();
         Sach = new javax.swing.JMenuItem();
         SinhVien = new javax.swing.JMenuItem();
+        Lop = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        LapPhieuMuon = new javax.swing.JMenuItem();
+        LapPhieuTra = new javax.swing.JMenuItem();
+        Menu4 = new javax.swing.JMenu();
+        frmMuonTra = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
 
         jMenu1.setText("Hệ Thống");
@@ -86,11 +94,53 @@ public class frmMenu extends javax.swing.JFrame {
         });
         jMenu2.add(SinhVien);
 
+        Lop.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        Lop.setText("Lớp");
+        Lop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LopActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Lop);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Quản lý phiếu");
         jMenu3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+
+        LapPhieuMuon.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LapPhieuMuon.setText("Lập phiếu mượn");
+        LapPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LapPhieuMuonActionPerformed(evt);
+            }
+        });
+        jMenu3.add(LapPhieuMuon);
+
+        LapPhieuTra.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        LapPhieuTra.setText("Lập phiếu trả");
+        LapPhieuTra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LapPhieuTraActionPerformed(evt);
+            }
+        });
+        jMenu3.add(LapPhieuTra);
+
         jMenuBar1.add(jMenu3);
+
+        Menu4.setText("Tra cứu");
+        Menu4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+
+        frmMuonTra.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        frmMuonTra.setText("Mượn trả");
+        frmMuonTra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                frmMuonTraActionPerformed(evt);
+            }
+        });
+        Menu4.add(frmMuonTra);
+
+        jMenuBar1.add(Menu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -98,11 +148,11 @@ public class frmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 847, Short.MAX_VALUE)
+            .addGap(0, 691, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 553, Short.MAX_VALUE)
+            .addGap(0, 517, Short.MAX_VALUE)
         );
 
         pack();
@@ -114,16 +164,40 @@ public class frmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void SachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SachActionPerformed
-       new frmSach().setVisible(true);
+        new frmSach().setVisible(true);
     }//GEN-LAST:event_SachActionPerformed
 
     private void SinhVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SinhVienActionPerformed
-       new frmSinhVien().setVisible(true);
+        new frmSinhVien().setVisible(true);
     }//GEN-LAST:event_SinhVienActionPerformed
 
     private void ChuyenMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChuyenMucActionPerformed
         new frmChuyenMuc().setVisible(true);
     }//GEN-LAST:event_ChuyenMucActionPerformed
+
+    private void LopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LopActionPerformed
+        new frmLop().setVisible(true);
+    }//GEN-LAST:event_LopActionPerformed
+
+    private void LapPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LapPhieuMuonActionPerformed
+        try {
+            new frmPhieuMuonSach().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_LapPhieuMuonActionPerformed
+
+    private void LapPhieuTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LapPhieuTraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LapPhieuTraActionPerformed
+
+    private void frmMuonTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frmMuonTraActionPerformed
+        try {
+            new frmTraCuuPhieuMuon().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_frmMuonTraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,8 +225,7 @@ public class frmMenu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(frmMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -163,8 +236,13 @@ public class frmMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ChuyenMuc;
+    private javax.swing.JMenuItem LapPhieuMuon;
+    private javax.swing.JMenuItem LapPhieuTra;
+    private javax.swing.JMenuItem Lop;
+    private javax.swing.JMenu Menu4;
     private javax.swing.JMenuItem Sach;
     private javax.swing.JMenuItem SinhVien;
+    private javax.swing.JMenuItem frmMuonTra;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

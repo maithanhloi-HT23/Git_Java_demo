@@ -5,7 +5,7 @@
  */
 package GiaoDien.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,23 +14,21 @@ import java.util.List;
 public class PhieuMuon {
     private String soPhieu;
     private SinhVien sv;
-    private List<Book> listBook;
+    private ArrayList<Book> listBook;
     private String ngayMuon;
-    private String ngayHen;
-    private String ngayTra;
-    private boolean trangThai;
+    private String ngayHenTra;
+    private String nguoiLap;
 
     public PhieuMuon() {
     }
 
-    public PhieuMuon(String soPhieu, SinhVien sv, List<Book> listBook, String ngayMuon, String ngayHen, String ngayTra, boolean trangThai) {
+    public PhieuMuon(String soPhieu, SinhVien sv, ArrayList<Book> listBook, String ngayMuon, String ngayHenTra, String nguoiLap) {
         this.soPhieu = soPhieu;
         this.sv = sv;
         this.listBook = listBook;
         this.ngayMuon = ngayMuon;
-        this.ngayHen = ngayHen;
-        this.ngayTra = ngayTra;
-        this.trangThai = trangThai;
+        this.ngayHenTra = ngayHenTra;
+        this.nguoiLap = nguoiLap;
     }
 
     public String getSoPhieu() {
@@ -49,14 +47,6 @@ public class PhieuMuon {
         this.sv = sv;
     }
 
-    public List<Book> getListBook() {
-        return listBook;
-    }
-
-    public void setListBook(List<Book> listBook) {
-        this.listBook = listBook;
-    }
-
     public void addBook(Book b){
         listBook.add(b);
     }
@@ -73,29 +63,31 @@ public class PhieuMuon {
         this.ngayMuon = ngayMuon;
     }
 
-    public String getNgayHen() {
-        return ngayHen;
+    public PhieuMuon(String ngayHenTra) {
+        this.ngayHenTra = ngayHenTra;
     }
 
-    public void setNgayHen(String ngayHen) {
-        this.ngayHen = ngayHen;
+    public ArrayList<Book> getListBook() {
+        return listBook;
     }
 
-    public String getNgayTra() {
-        return ngayTra;
+    public void setListBook(ArrayList<Book> listBook) {
+        this.listBook = listBook;
     }
 
-    public void setNgayTra(String ngayTra) {
-        this.ngayTra = ngayTra;
+    public String getNguoiLap() {
+        return nguoiLap;
     }
 
-    public boolean isTrangThai() {
-        return trangThai;
+    public void setNguoiLap(String nguoiLap) {
+        this.nguoiLap = nguoiLap;
     }
 
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
+    public String getNgayHenTra() {
+        return ngayHenTra;
     }
 
-   
+    public void setNgayHenTra(String ngayHenTra) {
+        this.ngayHenTra = ngayHenTra;
+    }
 }

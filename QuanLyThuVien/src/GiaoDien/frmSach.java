@@ -47,7 +47,7 @@ public class frmSach extends javax.swing.JFrame {
     final String thuMucHT = System.getProperty("user.dir");
     final String seprator = File.separator;
     final String path_file_CSV = thuMucHT + seprator + "Data" + seprator + "Book.csv";
-    
+
     public frmSach() {
         initComponents();
         list = new ArrayList<Book>();
@@ -56,7 +56,15 @@ public class frmSach extends javax.swing.JFrame {
         getComboData();
         KhoaMo(false);
     }
-    
+
+    public List<Book> getList() {
+        return list;
+    }
+
+    public void setList(List<Book> list) {
+        this.list = list;
+    }
+
     public void KhoaMo(boolean b) {
         txtMaSach.setEditable(b);
         txtNhaXB.setEditable(b);
@@ -64,15 +72,15 @@ public class frmSach extends javax.swing.JFrame {
         txtTenSach.setEditable(b);
         txtSoLuong.setEditable(b);
         cboTheLoai.setEnabled(b);
-                
+
         cmdThem.setEnabled(!b);
         cmdSua.setEnabled(!b);
         cmdXoa.setEnabled(!b);
         cmdSapXep.setEnabled(!b);
-        
+
         cmdGhi.setEnabled(b);
         cmdKhong.setEnabled(b);
-        
+
         cboxMaS.setEnabled(!b);
         cboxTenS.setEnabled(!b);
         cboxSlg.setEnabled(!b);
@@ -272,14 +280,19 @@ public class frmSach extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(337, 337, 337)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lbThongBao, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmdGhi, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(cmdKhong)
+                        .addGap(91, 91, 91))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(42, 42, 42)
@@ -322,14 +335,7 @@ public class frmSach extends javax.swing.JFrame {
                                 .addComponent(cboxSlg)
                                 .addGap(20, 20, 20)
                                 .addComponent(cboxMaS)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbThongBao, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmdGhi, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(84, 84, 84)
-                        .addComponent(cmdKhong)
-                        .addGap(101, 101, 101))))
+                                .addGap(0, 0, Short.MAX_VALUE))))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel2)
@@ -352,10 +358,6 @@ public class frmSach extends javax.swing.JFrame {
                     .addComponent(cmdALL, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbThongBao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cboxTenS)
@@ -396,8 +398,14 @@ public class frmSach extends javax.swing.JFrame {
                             .addComponent(cmdXoa))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmdGhi, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                            .addComponent(cmdKhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cmdKhong, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmdGhi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(6, 6, 6))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbThongBao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -413,13 +421,6 @@ public class frmSach extends javax.swing.JFrame {
         txtSoLuong.setText("");
     }
 
-    private void cmdThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdThemActionPerformed
-        KhoaMo(true);
-        XoaTrang();
-        ktThem = true;
-
-    }//GEN-LAST:event_cmdThemActionPerformed
-    
     public int TimSach(String macu) {
         int i;
         for (i = 0; i < list.size(); i++) {
@@ -430,21 +431,11 @@ public class frmSach extends javax.swing.JFrame {
         return -1;
     }
 
-    private void cmdSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSuaActionPerformed
-        if (txtMaSach.getText().equals("")) {
-            return;
-        }
-        KhoaMo(true);
-        macu = txtMaSach.getText();
-        ktThem = false;
-
-    }//GEN-LAST:event_cmdSuaActionPerformed
-
     private void combTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combTimActionPerformed
         String str = (String) combTim.getSelectedItem();
         ShowDataTable(str);
     }//GEN-LAST:event_combTimActionPerformed
-    
+
     public void DataTable() {
         if (modelTable.getRowCount() > 0) {
             modelTable.setRowCount(0);
@@ -462,9 +453,8 @@ public class frmSach extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdALLActionPerformed
     int selectedRowIndex;
     private void tbDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDanhMucMouseClicked
-        
         selectedRowIndex = tbDanhMuc.getSelectedRow();
-        
+
         txtMaSach.setText(tbDanhMuc.getValueAt(selectedRowIndex, 0).toString());
         txtTenSach.setText(tbDanhMuc.getValueAt(selectedRowIndex, 1).toString());
         cboTheLoai.setSelectedItem(tbDanhMuc.getValueAt(selectedRowIndex, 2).toString());
@@ -473,8 +463,75 @@ public class frmSach extends javax.swing.JFrame {
         txtSoLuong.setText(tbDanhMuc.getValueAt(selectedRowIndex, 5).toString());
     }//GEN-LAST:event_tbDanhMucMouseClicked
 
+    boolean KtTrungThem(String maSach) {
+        for (Book item : list) {
+            if (item.getMaSach().equals(maSach)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean KtTrungSua(String macu, String mamoi) {
+        int index = TimSach(macu);
+        int i;
+        for (i = 0; i < list.size(); i++) {
+            if (i == index) {
+                continue;
+            } else {
+                if (list.get(i).getMaSach().equals(mamoi)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private void cmdSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSapXepActionPerformed
+        if (cboxMaS.isSelected()) {
+            Collections.sort(list, new MaSachComparator());
+        }
+
+        if (cboxTenS.isSelected()) {
+            Collections.sort(list, new TenSachComparator());
+        }
+
+        if (cboxSlg.isSelected()) {
+            Collections.sort(list, new SoLuongComparator());
+        }
+
+        if (cboxMaS.isSelected() && cboxTenS.isSelected()) {
+            Collections.sort(list, new TenSachComparator().thenComparing(new MaSachComparator()));
+        }
+
+        if (cboxMaS.isSelected() && cboxSlg.isSelected()) {
+            Collections.sort(list, new SoLuongComparator().thenComparing(new MaSachComparator()));
+        }
+
+        if (cboxSlg.isSelected() && cboxTenS.isSelected()) {
+            Collections.sort(list, new SoLuongComparator().thenComparing(new TenSachComparator()));
+        }
+
+        if (cboxSlg.isSelected() && cboxTenS.isSelected() && cboxMaS.isSelected()) {
+            Collections.sort(list, new SoLuongComparator().thenComparing(new TenSachComparator()).thenComparing(new MaSachComparator()));
+        }
+        setDataCSVBook();
+        DataTable();
+
+    }//GEN-LAST:event_cmdSapXepActionPerformed
+
+    private void cmdKhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdKhongActionPerformed
+        KhoaMo(false);
+
+        txtMaSach.setText(tbDanhMuc.getValueAt(selectedRowIndex, 0).toString());
+        txtNhaXB.setText(tbDanhMuc.getValueAt(selectedRowIndex, 4).toString());
+        txtTacGia.setText(tbDanhMuc.getValueAt(selectedRowIndex, 3).toString());
+        txtTenSach.setText(tbDanhMuc.getValueAt(selectedRowIndex, 1).toString());
+        cboTheLoai.setSelectedIndex(combTim.getSelectedIndex());
+        txtSoLuong.setText(tbDanhMuc.getValueAt(selectedRowIndex, 5).toString());
+    }//GEN-LAST:event_cmdKhongActionPerformed
+
     private void cmdGhiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGhiActionPerformed
-        
+
         if (txtMaSach.getText().equals("")) {
             JOptionPane.showMessageDialog(jframe, "Chưa nhập mã sách.");
         }
@@ -484,7 +541,7 @@ public class frmSach extends javax.swing.JFrame {
         if (txtSoLuong.getText().equals("")) {
             JOptionPane.showMessageDialog(jframe, "Chưa nhập số lượng sách.");
         }
-        
+
         if (ktThem == true) {
             if (KtTrungThem(txtMaSach.getText()) == true) {
                 JOptionPane.showMessageDialog(jframe, "Trùng mã sách thêm!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -506,48 +563,12 @@ public class frmSach extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(jframe, "Sửa thành công.");
             }
         }
-        
+
         KhoaMo(false);
         setDataCSVBook();
         modelTable.setRowCount(0);
         ShowDataTable(cboTheLoai.getItemAt(cboTheLoai.getSelectedIndex()));
-
     }//GEN-LAST:event_cmdGhiActionPerformed
-    
-    boolean KtTrungThem(String maSach) {
-        for (Book item : list) {
-            if (item.getMaSach().equals(maSach)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    boolean KtTrungSua(String macu, String mamoi) {
-        int index = TimSach(macu);
-        int i;
-        for (i = 0; i < list.size(); i++) {
-            if (i == index) {
-            } else {
-                if (list.get(i).getMaSach().equals(mamoi)) {
-                    return true;
-                }
-            }
-            
-        }
-        return false;
-    }
-    private void cmdKhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdKhongActionPerformed
-        KhoaMo(false);
-        
-        txtMaSach.setText(tbDanhMuc.getValueAt(selectedRowIndex, 0).toString());
-        txtNhaXB.setText(tbDanhMuc.getValueAt(selectedRowIndex, 4).toString());
-        txtTacGia.setText(tbDanhMuc.getValueAt(selectedRowIndex, 3).toString());
-        txtTenSach.setText(tbDanhMuc.getValueAt(selectedRowIndex, 1).toString());
-        cboTheLoai.setSelectedIndex(combTim.getSelectedIndex());
-        txtSoLuong.setText(tbDanhMuc.getValueAt(selectedRowIndex, 5).toString());
-
-    }//GEN-LAST:event_cmdKhongActionPerformed
 
     private void cmdXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdXoaActionPerformed
         if ("".equals(txtMaSach.getText())) {
@@ -569,39 +590,21 @@ public class frmSach extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdXoaActionPerformed
 
-    private void cmdSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSapXepActionPerformed
-        if (cboxMaS.isSelected()) {
-            Collections.sort(list, new MaSachComparator());
+    private void cmdSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSuaActionPerformed
+        if (txtMaSach.getText().equals("")) {
+            return;
         }
-        
-        if (cboxTenS.isSelected()) {
-            Collections.sort(list, new TenSachComparator());
-        }
-        
-        if (cboxSlg.isSelected()) {
-            Collections.sort(list, new SoLuongComparator());
-        }
-        
-        if (cboxMaS.isSelected() && cboxTenS.isSelected()) {
-            Collections.sort(list, new TenSachComparator().thenComparing(new MaSachComparator()));
-        }
-        
-        if (cboxMaS.isSelected() && cboxSlg.isSelected()) {
-            Collections.sort(list, new SoLuongComparator().thenComparing(new MaSachComparator()));
-        }
-        
-        if (cboxSlg.isSelected() && cboxTenS.isSelected()) {
-            Collections.sort(list, new SoLuongComparator().thenComparing(new TenSachComparator()));
-        }
-        
-        if (cboxSlg.isSelected() && cboxTenS.isSelected() && cboxMaS.isSelected()) {
-            Collections.sort(list, new SoLuongComparator().thenComparing(new TenSachComparator()).thenComparing(new MaSachComparator()));
-        }
-        setDataCSVBook();
-        DataTable();
+        KhoaMo(true);
+        macu = txtMaSach.getText();
+        ktThem = false;
+    }//GEN-LAST:event_cmdSuaActionPerformed
 
-    }//GEN-LAST:event_cmdSapXepActionPerformed
-    
+    private void cmdThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdThemActionPerformed
+        KhoaMo(true);
+        XoaTrang();
+        ktThem = true;
+    }//GEN-LAST:event_cmdThemActionPerformed
+
     public void getComboData() {
         frmChuyenMuc frCM = new frmChuyenMuc();
         chuyenMuc = frCM.getList();
@@ -609,19 +612,9 @@ public class frmSach extends javax.swing.JFrame {
             combTim.addItem(item.getTenMuc());
             cboTheLoai.addItem(item.getTenMuc());
         }
-        
+
     }
-    
-    private int getItemComb(String s) {
-        int i;
-        for (i = 1; i < combTim.getItemCount(); i++) {
-            if (combTim.getItemAt(i).equals(s)) {
-                return i;
-            }
-        }
-        return 0;
-    }
-    
+
     public void ShowDataTable(String theL) {
         List<Book> book = new ArrayList<>();
         for (Book item : list) {
@@ -629,7 +622,7 @@ public class frmSach extends javax.swing.JFrame {
                 book.add(item);
             }
         }
-        
+
         modelTable.setRowCount(0);
         for (Book item : book) {
             modelTable.addRow(new Object[]{
@@ -637,7 +630,7 @@ public class frmSach extends javax.swing.JFrame {
             });
         }
         lbThongBao.setText("Có " + book.size() + " quển sách.");
-        
+
     }
 
     /**
@@ -667,7 +660,7 @@ public class frmSach extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void setDataCSVBook() {
         FileWriter fw = null;
         try {
@@ -677,10 +670,10 @@ public class frmSach extends javax.swing.JFrame {
                     CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.DEFAULT_LINE_END);
-            
+
             String[] header = {"Ma sach", "Ten sach", "The loai", "Tac gia", "Nha XB", "So luong"};
             csvWriter.writeNext(header);
-            
+
             for (Book item : list) {
                 csvWriter.writeNext(new String[]{
                     item.getMaSach(),
@@ -701,7 +694,7 @@ public class frmSach extends javax.swing.JFrame {
             }
         }
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -713,21 +706,21 @@ public class frmSach extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(frmSach.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(frmSach.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(frmSach.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(frmSach.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);

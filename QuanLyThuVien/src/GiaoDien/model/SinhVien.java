@@ -1,52 +1,31 @@
 package GiaoDien.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author ADMIN
  */
 public class SinhVien {
-    private String maSV;    
+
+    private String maSV;
     private String ten;
     private String lop;
-    private String soDienThoai;
-    private List<Book> sachDangMuon;
+    private String SDT;
 
-    public SinhVien(String maSV,String lop, String ten, String soDienThoai) {
+    public SinhVien(String maSV, String ten, String lop, String SDT) {
         this.maSV = maSV;
         this.ten = ten;
-        this.soDienThoai = soDienThoai;
+        this.SDT = SDT;
         this.lop = lop;
-        sachDangMuon = new ArrayList<Book>();
     }
 
     public SinhVien() {
     }
-    
-    public void addBook(Book b){
-        sachDangMuon.add(b);
-    }
-    
-    public void removeBook(int index){
-        sachDangMuon.remove(index);
-    }
 
-    public List<Book> getSachDangMuon() {
-        return sachDangMuon;
-    }
-
-    public void setSachDangMuon(List<Book> sachDangMuon) {
-        this.sachDangMuon = sachDangMuon;
-    }
-    
     public String getMaSV() {
         return maSV;
     }
@@ -63,12 +42,12 @@ public class SinhVien {
         this.ten = ten;
     }
 
-    public String getSoDienThoai() {
-        return soDienThoai;
+    public String getSDT() {
+        return SDT;
     }
 
-    public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
     }
 
     public String getLop() {
@@ -77,5 +56,10 @@ public class SinhVien {
 
     public void setLop(String lop) {
         this.lop = lop;
+    }
+
+    @Override
+    public String toString() {
+        return "SinhVien{" + "maSV=" + maSV + ", ten=" + ten + ", lop=" + lop + ", SDT=" + SDT + '}';
     }
 }

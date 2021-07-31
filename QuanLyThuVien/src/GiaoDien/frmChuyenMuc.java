@@ -8,8 +8,6 @@ package GiaoDien;
 import GiaoDien.model.ChuyenMuc;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -275,7 +273,7 @@ public class frmChuyenMuc extends javax.swing.JFrame {
         }
 
         if (ktThem == true) {
-            if (KtTrungMa(txtMaMuc.getText()) == true) {
+            if (KtTrungThem(txtMaMuc.getText()) == true) {
                 JOptionPane.showMessageDialog(jframe, "Trùng mã chuyên mục thêm !", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 chuyenMuc = new ChuyenMuc(txtMaMuc.getText(), txtTenMuc.getText());
@@ -283,7 +281,7 @@ public class frmChuyenMuc extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(jframe, "Thêm thành công.");
             }
         } else {
-            if (KtTrungMa(txtMaMuc.getText()) == true) {
+            if (KtTrungSua(macu, txtMaMuc.getText()) == true) {
                 JOptionPane.showMessageDialog(jframe, "Trùng chuyên mục sửa !", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 int index = TimCM(macu);
@@ -298,11 +296,27 @@ public class frmChuyenMuc extends javax.swing.JFrame {
         setDataChuyenMucCSV();
     }//GEN-LAST:event_cmdGhiActionPerformed
 
-    private boolean KtTrungMa(String macu) {
+    private boolean KtTrungThem(String macu) {
         for (ChuyenMuc item : list) {
             if (item.getMaMuc().equals(macu)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean KtTrungSua(String macu, String mamoi) {
+        int index = TimCM(macu);
+        int i;
+        for (i = 0; i < list.size(); i++) {
+            if (i == index) {
+                continue;
+            } else {
+                if (list.get(i).getMaMuc().equals(macu)) {
+                    return true;
+                }
+            }
+
         }
         return false;
     }
