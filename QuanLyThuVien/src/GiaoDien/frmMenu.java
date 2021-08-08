@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,12 +17,17 @@ import javax.swing.JFrame;
  */
 public class frmMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form frmMenu
-     */
+    public static boolean isOpenFrmChuyenMuc = false;
+    public static boolean isOpenFrmLop = false;
+    public static boolean isOpenFrmPhieuMuonSach = false;
+    public static boolean isOpenFrmPhieuTraSach1 = false;
+    public static boolean isOpenFrmSinhVien = false;
+    public static boolean isOpenFrmTraCuuPhieuMuon = false;
+    public static boolean isOpenFrmSach = false;
+
     public frmMenu() {
         initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setResizable(false);
     }
 
     /**
@@ -160,40 +166,77 @@ public class frmMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void SachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SachActionPerformed
-        new frmSach().setVisible(true);
+        if (isOpenFrmSach == false) {
+            new frmSach().setVisible(true);
+            isOpenFrmSach = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+        }
     }//GEN-LAST:event_SachActionPerformed
 
     private void SinhVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SinhVienActionPerformed
-        new frmSinhVien().setVisible(true);
+        if (isOpenFrmSinhVien == false) {
+            new frmSinhVien().setVisible(true);
+            isOpenFrmSinhVien = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+        }
     }//GEN-LAST:event_SinhVienActionPerformed
 
     private void ChuyenMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChuyenMucActionPerformed
-        new frmChuyenMuc().setVisible(true);
+        if (isOpenFrmChuyenMuc == false) {
+            new frmChuyenMuc().setVisible(true);
+            isOpenFrmChuyenMuc = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+        }
     }//GEN-LAST:event_ChuyenMucActionPerformed
 
     private void LopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LopActionPerformed
-        new frmLop().setVisible(true);
+
+        if (isOpenFrmLop == false) {
+            new frmLop().setVisible(true);
+            isOpenFrmLop = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+        }
     }//GEN-LAST:event_LopActionPerformed
 
     private void LapPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LapPhieuMuonActionPerformed
         try {
-            new frmPhieuMuonSach().setVisible(true);
+            if (isOpenFrmPhieuMuonSach == false) {
+                new frmPhieuMuonSach().setVisible(true);
+                isOpenFrmPhieuMuonSach = true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+            }
         } catch (IOException ex) {
             Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_LapPhieuMuonActionPerformed
 
     private void LapPhieuTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LapPhieuTraActionPerformed
-        // TODO add your handling code here:
+        if (isOpenFrmPhieuTraSach1 == false) {
+            new frmPhieuTraSach1().setVisible(true);
+            isOpenFrmPhieuTraSach1 = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+        }
     }//GEN-LAST:event_LapPhieuTraActionPerformed
 
     private void frmMuonTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frmMuonTraActionPerformed
+
         try {
-            new frmTraCuuPhieuMuon().setVisible(true);
+            if (isOpenFrmTraCuuPhieuMuon == false) {
+                new frmTraCuuPhieuMuon().setVisible(true);
+                isOpenFrmTraCuuPhieuMuon = true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Mục này đang được mở !");
+            }
         } catch (IOException ex) {
             Logger.getLogger(frmMenu.class.getName()).log(Level.SEVERE, null, ex);
         }

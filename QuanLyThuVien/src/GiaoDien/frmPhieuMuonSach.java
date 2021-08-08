@@ -14,6 +14,8 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -52,6 +54,7 @@ public class frmPhieuMuonSach extends javax.swing.JFrame {
 
     public frmPhieuMuonSach() throws IOException {
         initComponents();
+        this.setResizable(false);
         listSachDaThem = new ArrayList<Book>();
         listPhieuMuon = new ArrayList<>();
         getDataSinhVien();
@@ -61,7 +64,21 @@ public class frmPhieuMuonSach extends javax.swing.JFrame {
         setJTable();
         setJDate();
         searchReadTime();
-        edtSoPhieu.setText((listPhieuMuon.size() + 1) + "");
+        int sP = 1;
+        boolean check = true;
+        while (check) {
+            boolean check2 = true;
+            for (int i = 0; i < listPhieuMuon.size(); i++) {
+                if (Integer.parseInt(listPhieuMuon.get(i).getSoPhieu()) == sP) {
+                    check2 = false;
+                }
+            }
+            if (check2) {
+                check = false;
+                edtSoPhieu.setText(sP + "");
+            }
+            sP++;
+        }
         edtSoPhieu.setEditable(false);
         jListMa.setVisible(false);
         jListTen.setVisible(false);
@@ -69,7 +86,24 @@ public class frmPhieuMuonSach extends javax.swing.JFrame {
         hienThiSach("Tất cả sách");
         hienThiSachDaThem();
 
-        edtNguoiLap.setText("aaa");
+        if (frmDangNhap.thuThu != null) {
+            edtNguoiLap.setText(frmDangNhap.thuThu.getTenDangNhap());
+        }
+        edtNguoiLap.setEditable(false);
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frmMenu.isOpenFrmPhieuMuonSach = false;
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frmMenu.isOpenFrmPhieuMuonSach = false;
+            }
+
+        });
     }
 
     private void getDataSinhVien() {
@@ -955,7 +989,21 @@ public class frmPhieuMuonSach extends javax.swing.JFrame {
             listPhieuMuon.add(pm);
             updateDataJson(pathPhieuMuon, (ArrayList<PhieuMuon>) listPhieuMuon);
             updateDataCSV(pathSach, (ArrayList<Book>) listSach);
-            edtSoPhieu.setText((listPhieuMuon.size() + 1) + "");
+            int sP = 1;
+            boolean check = true;
+            while (check) {
+                boolean check2 = true;
+                for (int i = 0; i < listPhieuMuon.size(); i++) {
+                    if (Integer.parseInt(listPhieuMuon.get(i).getSoPhieu()) == sP) {
+                        check2 = false;
+                    }
+                }
+                if (check2) {
+                    check = false;
+                    edtSoPhieu.setText(sP + "");
+                }
+                sP++;
+            }
             JOptionPane.showMessageDialog(this, "Ghi phiếu thành công");
 
             edtMaSv.setText("");

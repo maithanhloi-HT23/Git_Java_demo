@@ -9,6 +9,8 @@ import GiaoDien.model.SinhVien;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,8 +30,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmSinhVien extends javax.swing.JFrame {
 
-    List<SinhVien> list;
-    List<Lop> lop;
+    ArrayList<SinhVien> list;
+    ArrayList<Lop> lop;
     SinhVien sv;
     DefaultTableModel modelTable;
     JFrame jframe = new JFrame();
@@ -39,12 +41,27 @@ public class frmSinhVien extends javax.swing.JFrame {
 
     public frmSinhVien() {
         initComponents();
+        this.setResizable(false);
         sv = new SinhVien();
         list = new ArrayList<>();
         getDataToCSVSinhVien();
         modelTable = (DefaultTableModel) tbSinhVien.getModel();
         getDataCombo();
         KhoaMo(false);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frmMenu.isOpenFrmSinhVien = false;
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frmMenu.isOpenFrmSinhVien = false;
+            }
+            
+        });
     }
 
     /**
@@ -431,7 +448,7 @@ public class frmSinhVien extends javax.swing.JFrame {
 
     public void getDataCombo() {
         frmLop frL = new frmLop();
-        lop = frL.getList();
+        lop = (ArrayList<Lop>) frL.getList();
         for (Lop item : lop) {
             combTim.addItem(item.getMaLop());
             cobLop.addItem(item.getMaLop());

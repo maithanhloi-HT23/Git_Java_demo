@@ -30,6 +30,7 @@ public class frmTrungTenSinhVien extends javax.swing.JFrame {
 
     public frmTrungTenSinhVien(frmPhieuMuonSach fMuonSach) {
         initComponents();
+        this.setResizable(false);
         jList = jListMa;
         this.fMuonSach = fMuonSach;
     }

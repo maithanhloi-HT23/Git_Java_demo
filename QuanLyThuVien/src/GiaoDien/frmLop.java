@@ -8,6 +8,8 @@ package GiaoDien;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -68,11 +70,26 @@ public class frmLop extends javax.swing.JFrame {
 
     public frmLop() {
         initComponents();
+        this.setResizable(false);
         list = new ArrayList<>();
         getDataLopCSV();
         modelTable = (DefaultTableModel) tbLop.getModel();
         KhoaMo(false);
         layDataTbale();
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frmMenu.isOpenFrmLop = false;
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frmMenu.isOpenFrmLop = false;
+            }
+            
+        });
     }
 
     /**

@@ -9,6 +9,9 @@ import GiaoDien.model.ChuyenMuc;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,11 +44,26 @@ public class frmChuyenMuc extends javax.swing.JFrame {
 
     public frmChuyenMuc() {
         initComponents();
+        this.setResizable(false);
         list = new ArrayList<>();
         getDataChuyenMucCSV();
         modelTable = (DefaultTableModel) tbChuyenMuc.getModel();
         KhoaMo(false);
         layDataTbale();
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frmMenu.isOpenFrmChuyenMuc = false;
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frmMenu.isOpenFrmChuyenMuc = false;
+            }
+
+        });
     }
 
     /**
@@ -265,28 +283,36 @@ public class frmChuyenMuc extends javax.swing.JFrame {
     }
 
     private void cmdGhiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGhiActionPerformed
-        if (txtMaMuc.getText().equals("")) {
+        if (txtMaMuc.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(jframe, "Chưa nhập mã chuyên mục.");
+            return;
         }
-        if (txtTenMuc.getText().equals("")) {
+        if (txtTenMuc.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(jframe, "Chưa nhập chuyên mục.");
+            return;
         }
-
+        txtMaMuc.setText(txtMaMuc.getText().toUpperCase());
+        if(txtMaMuc.getText().trim().length() > 100 || txtTenMuc.getText().trim().length() > 100){
+            JOptionPane.showMessageDialog(jframe, "Độ dài quá lớn. Chỉ được tối đa 100 ký tự.");
+            return;
+        }
         if (ktThem == true) {
-            if (KtTrungThem(txtMaMuc.getText()) == true) {
-                JOptionPane.showMessageDialog(jframe, "Trùng mã chuyên mục thêm !", "Error", JOptionPane.ERROR_MESSAGE);
+            if (KtTrungThem(txtMaMuc.getText().trim()) == true) {
+                JOptionPane.showMessageDialog(jframe, "Trùng chuyên mục có mã: " + txtMaMuc.getText().trim() + " !", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             } else {
-                chuyenMuc = new ChuyenMuc(txtMaMuc.getText(), txtTenMuc.getText());
+                chuyenMuc = new ChuyenMuc(txtMaMuc.getText().trim(), txtTenMuc.getText().trim());
                 list.add(chuyenMuc);
                 JOptionPane.showMessageDialog(jframe, "Thêm thành công.");
             }
         } else {
-            if (KtTrungSua(macu, txtMaMuc.getText()) == true) {
-                JOptionPane.showMessageDialog(jframe, "Trùng chuyên mục sửa !", "Error", JOptionPane.ERROR_MESSAGE);
+            if (KtTrungSua(macu, txtMaMuc.getText().trim()) == true) {
+                JOptionPane.showMessageDialog(jframe, "Trùng chuyên mục có mã: " + txtMaMuc.getText().trim() + " !", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             } else {
                 int index = TimCM(macu);
-                list.get(index).setMaMuc(txtMaMuc.getText());
-                list.get(index).setTenMuc(txtTenMuc.getText());
+                list.get(index).setMaMuc(txtMaMuc.getText().trim());
+                list.get(index).setTenMuc(txtTenMuc.getText().trim());
                 JOptionPane.showMessageDialog(jframe, "Sửa thành công.");
             }
         }
@@ -308,15 +334,16 @@ public class frmChuyenMuc extends javax.swing.JFrame {
     private boolean KtTrungSua(String macu, String mamoi) {
         int index = TimCM(macu);
         int i;
-        for (i = 0; i < list.size(); i++) {
-            if (i == index) {
-                continue;
-            } else {
-                if (list.get(i).getMaMuc().equals(macu)) {
-                    return true;
+        if (index > -1) {
+            for (i = 0; i < list.size(); i++) {
+                if (i == index) {
+                    continue;
+                } else {
+                    if (list.get(i).getMaMuc().equals(mamoi)) {
+                        return true;
+                    }
                 }
             }
-
         }
         return false;
     }

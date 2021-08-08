@@ -17,6 +17,8 @@ import com.google.gson.reflect.TypeToken;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -50,19 +52,14 @@ import javax.swing.table.DefaultTableModel;
 public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
 
     static String pathPhieuMuon = System.getProperty("user.dir") + File.separator + "Data" + File.separator + "PhieuMuon.json";
-    static String pathPhieuTra = System.getProperty("user.dir") + File.separator + "Data" + File.separator + "PhieuTra.json";
     private DefaultTableModel tableModelPhieu, tableModelSach;
     private ArrayList<PhieuMuon> listPhieuMuon;
-    private ArrayList<PhieuTra> listPhieuTra;
-    private boolean isPhieuMuon = true;
 
     public frmTraCuuPhieuMuon() throws IOException {
         initComponents();
         this.setResizable(false);
         try {
             getData();
-            fileTestPhieuTra(); // có thể xóa
-            getData(); // có thể xóa
         } catch (IOException ex) {
             Logger.getLogger(frmTraCuuPhieuMuon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,23 +69,20 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         searchReadTimeTest(); // có thể xóa
         jListMaSinhVien.setVisible(false);
         edtNguoiLap.setText("aaa");
-    }
 
-    private void fileTestPhieuTra() throws IOException { // có thể xóa
-        File filePT = new File(pathPhieuTra);
-        filePT.createNewFile();
-        FileWriter fw = new FileWriter(filePT);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frmMenu.isOpenFrmTraCuuPhieuMuon = false;
+            }
 
-        ArrayList<PhieuTra> list = new ArrayList<>();
-        for (int i = 0; i < listPhieuMuon.size(); i++) {
-            PhieuTra pt = new PhieuTra(listPhieuMuon.get(i).getSoPhieu(), listPhieuMuon.get(i).getSv(), listPhieuMuon.get(i).getListBook(), "aa", "1/8/2021", "Không ghi chú");
-            list.add(pt);
-        }
-        java.lang.reflect.Type type = new TypeToken<ArrayList<PhieuTra>>() {
-        }.getType();
-        Gson gson = new Gson();
-        gson.toJson(list, type, fw);
-        fw.close();
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frmMenu.isOpenFrmTraCuuPhieuMuon = false;
+            }
+
+        });
     }
 
     private void getData() throws IOException {
@@ -113,28 +107,6 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
                 listPhieuMuon = new ArrayList<PhieuMuon>();
             }
         }
-
-        // đọc list Phiếu trả
-        File filePT = new File(pathPhieuTra);
-        if (filePM.exists() == false) {
-            filePM.createNewFile();
-        }
-        FileReader frPT = null;
-        try {
-            frPT = new FileReader(pathPhieuTra);
-            java.lang.reflect.Type typePhieuTra = new TypeToken<ArrayList<PhieuTra>>() {
-            }.getType();
-            Gson gson = new Gson();
-            listPhieuTra = gson.fromJson(frPT, typePhieuTra);
-        } catch (Exception e) {
-        } finally {
-            if (frPT != null) {
-                frPT.close();
-            }
-            if (listPhieuTra == null) {
-                listPhieuTra = new ArrayList<PhieuTra>();
-            }
-        }
     }
 
     private void setJTablePhieu() {
@@ -145,15 +117,9 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
             }
         };
         tableModelPhieu.addColumn("Số phiếu");
-        if (isPhieuMuon == true) {
-            tableModelPhieu.addColumn("Ngày lập");
-            tableModelPhieu.addColumn("Ngày hẹn trả");
-            tableModelPhieu.addColumn("Người lập");
-        } else {
-            tableModelPhieu.addColumn("Ngày trả");
-            tableModelPhieu.addColumn("Người lập");
-            tableModelPhieu.addColumn("Ghi chú");
-        }
+        tableModelPhieu.addColumn("Ngày lập");
+        tableModelPhieu.addColumn("Ngày hẹn trả");
+        tableModelPhieu.addColumn("Người lập");
         tableModelPhieu.addColumn("Mã sinh viên");
         tableModelPhieu.addColumn("Tên sinh viên");
         jTablePhieu.setModel(tableModelPhieu);
@@ -167,9 +133,6 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         };
         tableModelSach.addColumn("Mã sách");
         tableModelSach.addColumn("Tên sách");
-        if (isPhieuMuon == false) {
-            tableModelSach.addColumn("Ngày Trả");
-        }
         jTableSach.setModel(tableModelSach);
     }
 
@@ -205,19 +168,10 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
             protected void updateChange() {
                 Vector<String> vector = new Vector<>();
                 String text = edtMaSinhVien.getText().toString().trim();
-                if (isPhieuMuon) {
-                    for (int i = 0; i < listPhieuMuon.size(); i++) {
-                        SinhVien sv = listPhieuMuon.get(i).getSv();
-                        if (sv.getMaSV().startsWith(text)) {
-                            vector.add(sv.getMaSV());
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < listPhieuTra.size(); i++) {
-                        SinhVien sv = listPhieuTra.get(i).getSv();
-                        if (sv.getMaSV().startsWith(text)) {
-                            vector.add(sv.getMaSV());
-                        }
+                for (int i = 0; i < listPhieuMuon.size(); i++) {
+                    SinhVien sv = listPhieuMuon.get(i).getSv();
+                    if (sv.getMaSV().startsWith(text)) {
+                        vector.add(sv.getMaSV());
                     }
                 }
                 vector.sort(new Comparator<String>() {
@@ -248,7 +202,7 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         editorDenNgay.setEditable(false);
     }
 
-    private void hienThiPhieu(Date ngayBatDau, Date ngayKetThuc, String value, boolean isPhieuMuon) throws ParseException {
+    private void hienThiPhieu(Date ngayBatDau, Date ngayKetThuc, String value) throws ParseException {
         setJTablePhieu();
         String maSv = edtMaSinhVien.getText().toString().trim();
         DefaultTableModel modelPhieu = (DefaultTableModel) jTablePhieu.getModel();
@@ -257,62 +211,38 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
             modelPhieu.removeRow(0);
         }
         int dem = 0;
-        if (isPhieuMuon) {
-            // Hiển thị bảng phiếu mượn
-            LocalDate dateBatDau = ngayBatDau.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate dateKetThuc = ngayKetThuc.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            SimpleDateFormat sdm = new SimpleDateFormat("dd/MM/yyyy");
-            for (int i = 0; i < listPhieuMuon.size(); i++) {
-                PhieuMuon pm = listPhieuMuon.get(i);
-                if (maSv.equals(pm.getSv().getMaSV())) {
-                    if (value.equals("Ngày Hẹn Trả")) {
-                        Date ngayHenTra = sdm.parse(pm.getNgayHenTra());
-                        LocalDate dateHenTra = ngayHenTra.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        if ((dateHenTra.isAfter(dateBatDau)) && (dateHenTra.isBefore(dateKetThuc)) || (dateHenTra.equals(dateBatDau)) || (dateHenTra.equals(dateKetThuc))) {
-                            Vector<String> vector = new Vector<String>();
-                            vector.add(pm.getSoPhieu());
-                            vector.add(pm.getNgayMuon());
-                            vector.add(pm.getNgayHenTra());
-                            vector.add(pm.getNguoiLap());
-                            vector.add(pm.getSv().getMaSV());
-                            vector.add(pm.getSv().getTen());
-                            modelPhieu.addRow(vector);
-                            dem++;
-                        }
-                    } else {
-                        Date ngayLap = sdm.parse(pm.getNgayMuon());
-                        LocalDate dateNgayLap = ngayLap.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        if ((dateNgayLap.isAfter(dateBatDau)) && (dateNgayLap.isBefore(dateKetThuc)) || (dateNgayLap.equals(dateBatDau)) || (dateNgayLap.equals(dateKetThuc))) {
-                            Vector<String> vector = new Vector<String>();
-                            vector.add(pm.getSoPhieu());
-                            vector.add(pm.getNgayMuon());
-                            vector.add(pm.getNgayHenTra());
-                            vector.add(pm.getNguoiLap());
-                            vector.add(pm.getSv().getMaSV());
-                            vector.add(pm.getSv().getTen());
-                            modelPhieu.addRow(vector);
-                            dem++;
-                        }
-                    }
-                }
-            }
-        } else {
-            LocalDate dateBatDau = ngayBatDau.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate dateKetThuc = ngayKetThuc.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            SimpleDateFormat sdm = new SimpleDateFormat("dd/MM/yyyy");
-            for (int i = 0; i < listPhieuTra.size(); i++) {
-                PhieuTra pt = listPhieuTra.get(i);
-                if (maSv.equals(pt.getSv().getMaSV())) {
-                    Date ngayTra = sdm.parse(pt.getNgayTra());
-                    LocalDate dateTra = ngayTra.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    if ((dateTra.isAfter(dateBatDau)) && (dateTra.isBefore(dateKetThuc)) || (dateTra.equals(dateBatDau)) || (dateTra.equals(dateKetThuc))) {
+        // Hiển thị bảng phiếu mượn
+        LocalDate dateBatDau = ngayBatDau.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate dateKetThuc = ngayKetThuc.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        SimpleDateFormat sdm = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < listPhieuMuon.size(); i++) {
+            PhieuMuon pm = listPhieuMuon.get(i);
+            if (maSv.equals(pm.getSv().getMaSV())) {
+                if (value.equals("Ngày Hẹn Trả")) {
+                    Date ngayHenTra = sdm.parse(pm.getNgayHenTra());
+                    LocalDate dateHenTra = ngayHenTra.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    if ((dateHenTra.isAfter(dateBatDau)) && (dateHenTra.isBefore(dateKetThuc)) || (dateHenTra.equals(dateBatDau)) || (dateHenTra.equals(dateKetThuc))) {
                         Vector<String> vector = new Vector<String>();
-                        vector.add(pt.getSoPhieu());
-                        vector.add(pt.getNgayTra());
-                        vector.add(pt.getNguoiLap());
-                        vector.add(pt.getGhiChu());
-                        vector.add(pt.getSv().getMaSV());
-                        vector.add(pt.getSv().getTen());
+                        vector.add(pm.getSoPhieu());
+                        vector.add(pm.getNgayMuon());
+                        vector.add(pm.getNgayHenTra());
+                        vector.add(pm.getNguoiLap());
+                        vector.add(pm.getSv().getMaSV());
+                        vector.add(pm.getSv().getTen());
+                        modelPhieu.addRow(vector);
+                        dem++;
+                    }
+                } else {
+                    Date ngayLap = sdm.parse(pm.getNgayMuon());
+                    LocalDate dateNgayLap = ngayLap.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    if ((dateNgayLap.isAfter(dateBatDau)) && (dateNgayLap.isBefore(dateKetThuc)) || (dateNgayLap.equals(dateBatDau)) || (dateNgayLap.equals(dateKetThuc))) {
+                        Vector<String> vector = new Vector<String>();
+                        vector.add(pm.getSoPhieu());
+                        vector.add(pm.getNgayMuon());
+                        vector.add(pm.getNgayHenTra());
+                        vector.add(pm.getNguoiLap());
+                        vector.add(pm.getSv().getMaSV());
+                        vector.add(pm.getSv().getTen());
                         modelPhieu.addRow(vector);
                         dem++;
                     }
@@ -335,30 +265,15 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
 
                 int row = jTablePhieu.getSelectedRow();
                 if (row > -1) {
-                    if (isPhieuMuon) {
-                        String soPhieu = jTablePhieu.getValueAt(row, 0).toString();
-                        for (int i = 0; i < listPhieuMuon.size(); i++) {
-                            PhieuMuon pm = listPhieuMuon.get(i);
-                            if (pm.getSoPhieu().equals(soPhieu)) {
-                                for (int j = 0; j < pm.getListBook().size(); j++) {
-                                    Vector<String> vector = new Vector<>();
-                                    vector.add(pm.getListBook().get(j).getMaSach());
-                                    vector.add(pm.getListBook().get(j).getTenSach());
-                                    modelSach.addRow(vector);
-                                }
-                            }
-                        }
-                    } else {
-                        String soPhieu = jTablePhieu.getValueAt(row, 0).toString();
-                        for (int i = 0; i < listPhieuTra.size(); i++) {
-                            PhieuTra pt = listPhieuTra.get(i);
-                            if (pt.getSoPhieu().equals(soPhieu)) {
-                                for (int j = 0; j < pt.getListBook().size(); j++) {
-                                    Vector<String> vector = new Vector<>();
-                                    vector.add(pt.getListBook().get(j).getMaSach());
-                                    vector.add(pt.getListBook().get(j).getTenSach());
-                                    modelSach.addRow(vector);
-                                }
+                    String soPhieu = jTablePhieu.getValueAt(row, 0).toString();
+                    for (int i = 0; i < listPhieuMuon.size(); i++) {
+                        PhieuMuon pm = listPhieuMuon.get(i);
+                        if (pm.getSoPhieu().equals(soPhieu)) {
+                            for (int j = 0; j < pm.getListBook().size(); j++) {
+                                Vector<String> vector = new Vector<>();
+                                vector.add(pm.getListBook().get(j).getMaSach());
+                                vector.add(pm.getListBook().get(j).getTenSach());
+                                modelSach.addRow(vector);
                             }
                         }
                     }
@@ -409,9 +324,6 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         edtMaSinhVien = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jRBPhieuMuon = new javax.swing.JRadioButton();
-        jRBPhieuTra = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jRBNgay = new javax.swing.JRadioButton();
         jRBNgayHenTra = new javax.swing.JRadioButton();
@@ -425,6 +337,7 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         jDateDenNgay = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListMaSinhVien = new javax.swing.JList<>();
+        btnTraSach = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(920, 630));
@@ -466,27 +379,6 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(260, 66));
         jPanel1.setLayout(null);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jRBPhieuMuon.setText("Phiếu Mượn");
-        jRBPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBPhieuMuonActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jRBPhieuMuon);
-
-        jRBPhieuTra.setText("Phiếu Trả    ");
-        jRBPhieuTra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBPhieuTraActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jRBPhieuTra);
-
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(10, 20, 110, 60);
-
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jRBNgay.setText("Ngày Lập      ");
@@ -506,10 +398,10 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         jPanel3.add(jRBNgayHenTra);
 
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(130, 20, 120, 60);
+        jPanel3.setBounds(10, 20, 120, 60);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(480, 90, 261, 90);
+        jPanel1.setBounds(480, 90, 140, 90);
 
         btnTimKiem.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnTimKiem.setText("Tìm kiếm");
@@ -519,7 +411,7 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTimKiem);
-        btnTimKiem.setBounds(750, 130, 139, 40);
+        btnTimKiem.setBounds(670, 100, 140, 30);
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Hiển thị sách theo số phiếu"));
 
@@ -620,6 +512,16 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(590, 0, 290, 90);
 
+        btnTraSach.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnTraSach.setText("Trả sách");
+        btnTraSach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTraSachActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnTraSach);
+        btnTraSach.setBounds(670, 140, 140, 30);
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -627,38 +529,12 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         if (checkDauVao()) {
             try {
-                hienThiPhieu(jDateTuNgay.getDate(), jDateDenNgay.getDate(), jRBNgayHenTra.isSelected() ? "Ngày Hẹn Trả" : "Ngày Lập", isPhieuMuon);
+                hienThiPhieu(jDateTuNgay.getDate(), jDateDenNgay.getDate(), jRBNgayHenTra.isSelected() ? "Ngày Hẹn Trả" : "Ngày Lập");
             } catch (ParseException ex) {
                 Logger.getLogger(frmTraCuuPhieuMuon.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnTimKiemActionPerformed
-
-    private void jRBPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBPhieuMuonActionPerformed
-        jRBPhieuMuon.setSelected(true);
-        jRBPhieuTra.setSelected(false);
-        
-        jRBNgay.setText("Ngày Lập       ");
-        jRBNgay.setEnabled(true);
-        jRBNgay.setSelected(true);
-        jRBNgayHenTra.setVisible(true);
-        jRBNgayHenTra.setSelected(false);
-        
-        isPhieuMuon = true;
-    }//GEN-LAST:event_jRBPhieuMuonActionPerformed
-
-    private void jRBPhieuTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBPhieuTraActionPerformed
-        jRBPhieuTra.setSelected(true);
-        jRBPhieuMuon.setSelected(false);
-        
-        jRBNgay.setText("Ngày Trả       ");
-        jRBNgay.setEnabled(false);
-        jRBNgay.setSelected(true);
-        jRBNgayHenTra.setVisible(false);
-        jRBNgayHenTra.setSelected(false);
-        
-        isPhieuMuon = false;
-    }//GEN-LAST:event_jRBPhieuTraActionPerformed
 
     private void jRBNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBNgayActionPerformed
         jRBNgay.setSelected(true);
@@ -669,6 +545,13 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
         jRBNgayHenTra.setSelected(true);
         jRBNgay.setSelected(false);
     }//GEN-LAST:event_jRBNgayHenTraActionPerformed
+
+    private void btnTraSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraSachActionPerformed
+        this.setVisible(false);
+        if (frmMenu.isOpenFrmPhieuTraSach1 == false) {
+            new frmPhieuTraSach1().setVisible(true);
+        }
+    }//GEN-LAST:event_btnTraSachActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -708,6 +591,7 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTimKiem;
+    private javax.swing.JButton btnTraSach;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -722,12 +606,9 @@ public class frmTraCuuPhieuMuon extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JList<String> jListMaSinhVien;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRBNgay;
     private javax.swing.JRadioButton jRBNgayHenTra;
-    private javax.swing.JRadioButton jRBPhieuMuon;
-    private javax.swing.JRadioButton jRBPhieuTra;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

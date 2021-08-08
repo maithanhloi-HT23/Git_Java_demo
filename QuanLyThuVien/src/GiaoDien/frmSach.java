@@ -15,6 +15,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,7 +40,7 @@ public class frmSach extends javax.swing.JFrame {
     /**
      * Creates new form frmSach
      */
-    List<Book> list;
+    ArrayList<Book> list;
     List<ChuyenMuc> chuyenMuc;
     boolean ktThem;
     String macu = "";
@@ -50,18 +52,33 @@ public class frmSach extends javax.swing.JFrame {
 
     public frmSach() {
         initComponents();
+        this.setResizable(false);
         list = new ArrayList<Book>();
         getDataToCSVBook();
         modelTable = (DefaultTableModel) tbDanhMuc.getModel();
         getComboData();
         KhoaMo(false);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frmMenu.isOpenFrmSach = false;
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                frmMenu.isOpenFrmSach = false;
+            }
+            
+        });
     }
 
-    public List<Book> getList() {
+    public ArrayList<Book> getList() {
         return list;
     }
 
-    public void setList(List<Book> list) {
+    public void setList(ArrayList<Book> list) {
         this.list = list;
     }
 
@@ -445,7 +462,7 @@ public class frmSach extends javax.swing.JFrame {
                 item.getMaSach(), item.getTenSach(), item.getTheLoai(), item.getTacGia(), item.getNXB(), item.getSoLuong()
             });
         }
-        lbThongBao.setText("Có " + list.size() + " quển sách.");
+        lbThongBao.setText("Có " + list.size() + " sách khác nhau.");
     }
 
     private void cmdALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdALLActionPerformed
@@ -629,7 +646,7 @@ public class frmSach extends javax.swing.JFrame {
                 item.getMaSach(), item.getTenSach(), item.getTheLoai(), item.getTacGia(), item.getNXB(), item.getSoLuong()
             });
         }
-        lbThongBao.setText("Có " + book.size() + " quển sách.");
+        lbThongBao.setText("Có " + book.size() + " sách khác nhau.");
 
     }
 
